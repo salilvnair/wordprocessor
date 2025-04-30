@@ -1,0 +1,124 @@
+package com.github.salilvnair.wordprocessor.helper;
+
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.regex.Pattern;
+
+/**
+ * <b>DocXReplacerUtil</b> generates <b>MS-Word(.docx)</b> 
+ * <br><br><b>v1.0</b> - 
+ * <ul>
+ * <li>DocXReplacerUtil take the template as docx format and produces the same format output replacing the placeholders using
+ * table replace or text replace methods.</li>
+ * <li>You can find examples in the test section of this utility.</li></ul>
+ * @author <b>Name:</b> Salil V Nair 
+ * <br><b>Attuid:</b> sn2527
+ */
+public class DocXReplacerUtil extends DocXWordDetector  implements IDocumentReplacerUtil {
+	
+    private static final int INITIAL_TEXT_POSITION = 0;
+
+    private String replacementText;
+    private String placeHolder;
+    private XWPFDocument document;
+    
+    public void replaceInText(String placeHolder, String replacementText) {
+        this.replacementText = replacementText;
+        this.placeHolder = placeHolder;
+        findWordsInText(document, placeHolder);
+    }
+
+    public void replaceInTable(String placeHolder, String replacementText) {
+        this.replacementText = replacementText;
+        this.placeHolder = placeHolder;
+        findWordsInTable(document, placeHolder);
+    }
+    
+    public Object document() {
+		return document;
+	}
+
+    @Override
+    public void onDetection(XWPFRun run) {
+    	replaceOnWordDetection(run);
+    }
+
+    @Override
+    public void onNextDetection(List<XWPFRun> runs, int step) {
+    	replaceOnWordDetectionStep(runs, step);
+    }
+    
+    public void init(String docxFile) throws IOException {
+    	File file = new File(docxFile);
+        init(file);
+    }
+    
+    public void init(File docxFile) throws IOException {
+        InputStream inputStream = new FileInputStream(docxFile);
+        init(new XWPFDocument(inputStream));
+    }
+
+    private void init(XWPFDocument xwpfDoc) {
+        if (xwpfDoc == null) throw new NullPointerException();
+        document = xwpfDoc;
+    }
+
+    private void replaceOnWordDetectionStep(List<XWPFRun> runs, int currentRun) {
+        boolean replaced = replaceText(runs.get(currentRun - 1));
+        if (replaced) {
+            clearText(runs.get(currentRun));
+        } else {
+        	replaceText(runs.get(currentRun));
+        }
+        cleanText(runs.get(currentRun + 1));
+    }
+
+    private void clearText(XWPFRun run) {
+        run.setText("", INITIAL_TEXT_POSITION);
+    }
+
+    private void replaceOnWordDetection(XWPFRun run) {
+        String replacedText = run.getText(INITIAL_TEXT_POSITION).replaceAll(Pattern.quote(placeHolder), replacementText);
+        run.setText(replacedText, INITIAL_TEXT_POSITION);
+    }
+
+    private boolean replaceText(XWPFRun run) {
+        String text = run.getText(INITIAL_TEXT_POSITION);
+        String nextPlaceHolder = placeHolderTail(text, placeHolder);
+        if (!nextPlaceHolder.isEmpty()) {
+            text = text.replace(nextPlaceHolder, replacementText);
+            run.setText(text, INITIAL_TEXT_POSITION);
+            return true;
+        }
+        return false;
+    }
+
+    private void cleanText(XWPFRun run) {
+        String text = run.getText(INITIAL_TEXT_POSITION);
+        String nextPlaceHolder = placeHolderHead(text,placeHolder);
+        text = text.replace(nextPlaceHolder, "");
+        run.setText(text, INITIAL_TEXT_POSITION);
+    }
+
+    private String placeHolderHead(String text, String placeHolder) {
+        if (!text.startsWith(placeHolder)) {
+            return placeHolderHead(text, placeHolder.substring(1));
+        } else {
+            return placeHolder;
+        }
+    }
+
+    private String placeHolderTail(String text, String placeHolder) {
+        if (!text.endsWith(placeHolder)) {
+            return placeHolderTail(text, placeHolder.substring(0, placeHolder.length() - 1));
+        } else {
+            return placeHolder;
+        }
+    }
+}
