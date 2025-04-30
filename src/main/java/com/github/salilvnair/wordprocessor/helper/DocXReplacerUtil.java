@@ -10,16 +10,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.regex.Pattern;
 
-/**
- * <b>DocXReplacerUtil</b> generates <b>MS-Word(.docx)</b> 
- * <br><br><b>v1.0</b> - 
- * <ul>
- * <li>DocXReplacerUtil take the template as docx format and produces the same format output replacing the placeholders using
- * table replace or text replace methods.</li>
- * <li>You can find examples in the test section of this utility.</li></ul>
- * @author <b>Name:</b> Salil V Nair 
- * <br><b>Attuid:</b> sn2527
- */
 public class DocXReplacerUtil extends DocXWordDetector  implements IDocumentReplacerUtil {
 	
     private static final int INITIAL_TEXT_POSITION = 0;

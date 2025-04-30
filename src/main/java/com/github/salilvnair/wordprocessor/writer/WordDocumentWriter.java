@@ -22,19 +22,6 @@ import java.util.Map;
 import java.util.Set;
 
 
-/**
- * <b>WordProcessorBuilder</b> generates <b>MS-Word(.doc,.docx)</b> 
- * <br><br><b>v1.0</b> - 
- * <ul><li>As of now WordProcessorBuilder can replace the PlaceHolders in a document template file with the 
- * bean annotated with PlaceHolder annotation value and save it as doc or docx file.</li>
- * <li>There are certain limitation for the <b><i>old MS-Doc though one of which is you cannot use the <s>Bookmark</s> in it.</b></i></li>
- * <li>However that limitation is not there in MS-DocX latest format that Word supports.</li>
- * <li>WordProcessorBuilder take the template as doc or docx format and produces the same format output replacing the placeholders using
- * table replace or text replace methods.</li>
- * <li>You can find examples in the test section of this utility.</li></ul>
- * @author <b>Name:</b> Salil V Nair 
- * <br><b>Attuid:</b> sn2527
- */
 public class WordDocumentWriter {
 	
 	private BaseDocument placeHolderBean;

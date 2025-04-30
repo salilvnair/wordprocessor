@@ -6,16 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-/**
- * <b>DocReplacerUtil</b> generates <b>MS-Word(.doc)</b> 
- * <br><br><b>v1.0</b> - 
- * <ul>
- * <li>DocReplacerUtil take the template as doc format and produces the same format output replacing the placeholders using
- * table replace or text replace methods.</li>
- * <b>Note:</b> you cannot use the <s>Bookmark</s> in it.</b></i></li>
- * @author <b>Name:</b> Salil V Nair 
- * <br><b>Attuid:</b> sn2527
- */
+
 public class DocReplacerUtil extends DocWordDetector implements IDocumentReplacerUtil{
 	
 	private HWPFDocument document;
