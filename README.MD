@@ -38,7 +38,7 @@ To use this utility as a Maven dependency, add the following to your `pom.xml`:
 
 ### 1. Create a POJO
 
-Your POJO must **extend `BaseDocument`** and implement **`IDocument`**.
+Your POJO must **extend `BaseDocument`**
 Each field that should be replaced in the Word document must be annotated with `@PlaceHolder("key")`.
 
 To mark a field as a checkbox, use the optional `checkbox = true` parameter:
