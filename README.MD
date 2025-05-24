@@ -22,8 +22,15 @@ A lightweight and flexible Java library to dynamically populate Microsoft Word `
 ---
 
 ## Setup
+To use this utility as a Maven dependency, add the following to your `pom.xml`:
 
-Include the source package in your Java project. If converting to a Maven/Gradle module, package the utility accordingly and import it.
+```xml
+<dependency>
+    <groupId>com.github.salilvnair</groupId>
+    <artifactId>wordprocessor</artifactId>
+    <version>1.0.1</version>
+</dependency>
+```
 
 ---
 
