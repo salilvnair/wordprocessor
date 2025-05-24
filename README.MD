@@ -40,6 +40,9 @@ To use this utility as a Maven dependency, add the following to your `pom.xml`:
 
 Your POJO must **extend `BaseDocument`**
 Each field that should be replaced in the Word document must be annotated with `@PlaceHolder("key")`.
+To make key unique we can have it eclosed between {{}}, for example {{key}}
+The same has to be given in the @Placeholder value attribute
+For the checkbox type generally we define tag value in the docx and same name we will be giving in the placeholder value.
 
 To mark a field as a checkbox, use the optional `checkbox = true` parameter:
 
