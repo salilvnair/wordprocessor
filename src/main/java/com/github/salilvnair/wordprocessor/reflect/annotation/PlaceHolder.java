@@ -15,6 +15,4 @@ public @interface PlaceHolder {
 	boolean checkbox() default false;
 	boolean nonNull() default false;
 	String replaceNullWith() default "  ";
-	String checkboxCheckedValue() default WordProcessorConstant.PLACEHOLDER_CHECKBOX_VALUE_CHECKED;
-	String checkboxUncheckedValue() default WordProcessorConstant.PLACEHOLDER_VALUE_REPLACE_EMPTY;
 }

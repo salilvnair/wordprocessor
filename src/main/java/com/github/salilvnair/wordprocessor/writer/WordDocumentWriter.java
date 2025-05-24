@@ -1,5 +1,6 @@
 package com.github.salilvnair.wordprocessor.writer;
 
+import com.github.salilvnair.wordprocessor.context.DocumentReplacerContext;
 import com.github.salilvnair.wordprocessor.util.AnnotationUtil;
 import com.github.salilvnair.wordprocessor.bean.BaseDocument;
 import com.github.salilvnair.wordprocessor.helper.DocReplacerUtil;
@@ -32,6 +33,7 @@ public class WordDocumentWriter {
     private final String PLACEHOLDER_PREFIX = "{{";
     private final String PLACEHOLDER_SUFFIX = "}}";
     private Map<String,Object> placeHolderValueMap;
+    private Map<String, PlaceHolder> placeHolderTypeMap;
     private boolean isTableTextReplacement = false;
     private boolean isNormalTextReplacement = false;
 	IDocumentReplacerUtil documentReplacerUtil = null;
@@ -126,37 +128,24 @@ public class WordDocumentWriter {
     	if(placeHolderValueMap==null) {
     		placeHolderValueMap = new HashMap<>();
     	}
+		if (placeHolderTypeMap == null) {
+			placeHolderTypeMap = new HashMap<>();
+		}
 		for(Field placeHolderField:placeHolderFields){
 			PlaceHolder documentPlaceHolder = placeHolderField.getAnnotation(PlaceHolder.class);
 			if(documentPlaceHolder == null) {
 				continue;
 			}
 			String placeHolderKey = documentPlaceHolder.value();
+			placeHolderTypeMap.put(placeHolderKey, documentPlaceHolder);
 			Gson gson = new GsonBuilder().setDateFormat("E MMM dd hh:mm:ss Z yyyy").create();
 			String jsonString = gson.toJson(baseDocument);
 			JSONObject jasonObject = new JSONObject(jsonString);
 			String key = placeHolderField.getName();
 			Object hasValue=jasonObject.opt(key);
-			if(documentPlaceHolder.checkbox()) {
-				placeHolderValueMap.put(placeHolderKey, documentPlaceHolder.checkboxUncheckedValue());
-				if(hasValue!=null){
-					Object jasonValue = jasonObject.get(key);
-					if(jasonValue instanceof Boolean) {
-						boolean checked = (boolean) jasonValue;
-						if(checked) {
-							placeHolderValueMap.put(placeHolderKey, documentPlaceHolder.checkboxCheckedValue());
-						}
-						else {
-							placeHolderValueMap.put(placeHolderKey, documentPlaceHolder.checkboxUncheckedValue());
-						}
-					}					
-				}
-			}
-			else {
-				if(hasValue!=null){
-					Object jasonValue = jasonObject.get(key);
-					placeHolderValueMap.put(placeHolderKey, jasonValue);
-				}	
+			if(hasValue!=null){
+				Object jasonValue = jasonObject.get(key);
+				placeHolderValueMap.put(placeHolderKey, jasonValue);
 			}
 			if(documentPlaceHolder.nonNull()) {
 				if(hasValue==null){
@@ -227,13 +216,29 @@ public class WordDocumentWriter {
 		if(this.isNormalTextReplacement) {
 			for(String placeHolder : placeHolderValueMap.keySet()) {
 				Object replacementText = placeHolderValueMap.get(placeHolder);
-				documentReplacerUtil.replaceInText(placeHolder, replacementText.toString());
+				PlaceHolder placeHolderType = placeHolderTypeMap.get(placeHolder);
+				DocumentReplacerContext context = DocumentReplacerContext
+													.builder()
+													.placeHolderText(placeHolder)
+													.placeHolderValueMap(placeHolderValueMap)
+													.placeHolderType(placeHolderType)
+													.placeHolderTypeMap(placeHolderTypeMap)
+													.build();
+				documentReplacerUtil.replaceInText(placeHolder, replacementText+"", context);
 			}
 		}
 		else if (this.isTableTextReplacement) {
 			for(String placeHolder : placeHolderValueMap.keySet()) {
 				Object replacementText = placeHolderValueMap.get(placeHolder);
-				documentReplacerUtil.replaceInTable(placeHolder, replacementText.toString());
+				PlaceHolder placeHolderType = placeHolderTypeMap.get(placeHolder);
+				DocumentReplacerContext context = DocumentReplacerContext
+													.builder()
+													.placeHolderText(placeHolder)
+													.placeHolderValueMap(placeHolderValueMap)
+													.placeHolderTypeMap(placeHolderTypeMap)
+													.placeHolderType(placeHolderType)
+													.build();
+				documentReplacerUtil.replaceInTable(placeHolder, replacementText+"", context);
 			}
 		}
 		return this;
