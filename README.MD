@@ -81,7 +81,7 @@ subscribed  <- Checkbox (in form-enabled documents)
 
 > ✅ Ensure your `.docx` template is **not password protected** and is in a valid editable format.
 
-> 🟢 For checkboxes: set the corresponding POJO field to `true` to mark the checkbox as checked. Also use `@PlaceHolder(checkbox = true)` on the field.
+> 🟢 For checkboxes: Use `@PlaceHolder(checkbox = true)` on the field to treat that as the checkbox.
 
 ---
 
