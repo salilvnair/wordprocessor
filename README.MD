@@ -1,5 +1,5 @@
 
-# WordProcessor Utility
+# WordProcessor
 
 A lightweight and flexible Java library to dynamically populate Microsoft Word `.docx` templates with values from annotated Java POJO beans. This utility simplifies the generation of templated Word documents by leveraging annotations, reflection, and Apache POI under the hood.
 
