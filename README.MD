@@ -48,7 +48,7 @@ To use this utility as a Maven dependency, add the following to your `pom.xml`:
 
 > For the `checkbox` type generally we define `tag value` in the docx and same name we will be giving in the placeholder value.
 
-To mark a field as a checkbox, use the optional `checkbox = true` parameter:
+To mark a field as a checkbox, use the  `checkbox = true` parameter:
 
 ```java
 import com.github.salilvnair.wordprocessor.bean.BaseDocument;
