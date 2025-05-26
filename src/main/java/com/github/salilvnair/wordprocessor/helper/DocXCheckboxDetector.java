@@ -140,12 +140,12 @@ public class DocXCheckboxDetector {
                 return false;
             }
             CTSdtPr sdtPr = sdtRun.getSdtPr();
-            if (sdtPr == null || sdtPr.getTag() == null || placeHolder.equals(sdtPr.getTag().getVal())) {
+            if (sdtPr == null || sdtPr.getTag() == null || !placeHolder.equals(sdtPr.getTag().getVal())) {
                 return false;
             }
             String declareNameSpaces = "declare namespace w14='http://schemas.microsoft.com/office/word/2010/wordml'";
             XmlObject[] selectedObjects = sdtPr.selectPath(declareNameSpaces + ".//w14:checkbox");
-            return selectedObjects.length > 0;
+            return selectedObjects.length > 0 && placeHolder.equals(sdtPr.getTag().getVal());
         }
     }
 }

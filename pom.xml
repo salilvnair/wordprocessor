@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.salilvnair</groupId>
     <artifactId>wordprocessor</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
     <name>Word processor utility</name>
     <description>POI based libarary to generate word document from java and more</description>
     <url>https://github.com/salilvnair/wordprocessor</url>

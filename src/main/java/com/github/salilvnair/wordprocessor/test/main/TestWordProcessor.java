@@ -9,19 +9,17 @@ public class TestWordProcessor {
 	public static void main(String[] args) {
 		WordDocumentWriter wordDocumentWriter = new WordDocumentWriter();
 		TestBean testBean = new TestBean();
-		testBean.setTest1(false);
+		testBean.setTest1(true);
 		testBean.setTest2(false);
-		testBean.setA("Acha");
-		testBean.setB("Bacha");
-		testBean.setC("Chacha");
+		testBean.setC("Cat");
 		try {
-			String template = "C:\\Users\\sn2527\\workspace\\template.docx";
+			String template = "/Users/salilvnair/workspace/template.docx";
 			wordDocumentWriter
 			.placeHolderBeans(testBean)
 			.template(template)
 			.table()
 			.replace()
-			.save("C:\\Users\\sn2527\\workspace\\output_21_12.docx");
+			.save("/Users/salilvnair/workspace/output_template.docx");
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
