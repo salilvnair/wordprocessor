@@ -8,5 +8,6 @@ public final class WordProcessorConstant {
     public static final String WORD_FILE_TYPE_DOCX = ".docx";
     public static final String PLACEHOLDER_CHECKBOX_VALUE_CHECKED= "X";
     public static final String PLACEHOLDER_VALUE_REPLACE_EMPTY= "  ";
+    public static final String TRUE = "true";
 	
 }
