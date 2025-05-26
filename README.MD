@@ -28,7 +28,7 @@ To use this utility as a Maven dependency, add the following to your `pom.xml`:
 <dependency>
     <groupId>com.github.salilvnair</groupId>
     <artifactId>wordprocessor</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
@@ -46,9 +46,9 @@ To use this utility as a Maven dependency, add the following to your `pom.xml`:
 
 > The same has to be given in the `@Placeholder` `value` attribute
 
-> For the `checkbox` type generally we define `tag value` in the docx and same name we will be giving in the placeholder value.
+> For the `checkbox` type  a `tag value` in the docx must be defined and same value has to be given as the placeholder value.
 
-To mark a field as a checkbox, use the  `checkbox = true` parameter:
+To mark a field as a checkbox, use the  `value = tagname, checkbox = true` parameter:
 
 ```java
 import com.github.salilvnair.wordprocessor.bean.BaseDocument;
