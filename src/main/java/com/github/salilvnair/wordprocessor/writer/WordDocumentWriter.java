@@ -13,7 +13,6 @@ import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,7 +26,8 @@ public class WordDocumentWriter {
 	
 	private BaseDocument placeHolderBean;
 	private BaseDocument[] placeHolderBeans;
-    private String template;
+    private String templateFilePath;
+    private File templateFile;
     private final String WORD_FILE_TYPE_DOC = ".doc";
     private final String WORD_FILE_TYPE_DOCX = ".docx";
     private final String PLACEHOLDER_PREFIX = "{{";
@@ -38,20 +38,26 @@ public class WordDocumentWriter {
     private boolean isNormalTextReplacement = false;
 	IDocumentReplacerUtil documentReplacerUtil = null;
 
-    public WordDocumentWriter template(String template) {
-    	this.template = template; 
+    public WordDocumentWriter template(String templateFilePath) {
+    	this.templateFilePath = templateFilePath;
     	return this;
     }
 
-    private IDocumentReplacerUtil initDocumentReplacerUtil() throws IOException {
-    	if(this.template != null ) {
-    		 if (template.endsWith(WORD_FILE_TYPE_DOC)) {
+	public WordDocumentWriter template(File templateFile) {
+		this.templateFile = templateFile;
+		return this;
+	}
+
+    private IDocumentReplacerUtil initDocumentReplacerUtil(File file) throws IOException {
+    	if(file != null ) {
+			String fileName = file.getName();
+    		 if (fileName.endsWith(WORD_FILE_TYPE_DOC)) {
     			 documentReplacerUtil = new DocReplacerUtil();
-    			 documentReplacerUtil.init(template);
+    			 documentReplacerUtil.init(file);
     		 }
-    		 else if (template.endsWith(WORD_FILE_TYPE_DOCX)) {
+    		 else if (fileName.endsWith(WORD_FILE_TYPE_DOCX)) {
     			 documentReplacerUtil = new DocXReplacerUtil();
-    			 documentReplacerUtil.init(template);
+    			 documentReplacerUtil.init(file);
     		 }
     	}
     	return documentReplacerUtil;
@@ -202,7 +208,8 @@ public class WordDocumentWriter {
 	}
 	
 	private void initProcessor() throws InstantiationException, IllegalAccessException, JSONException, IOException {
-		initDocumentReplacerUtil();
+		File file = templateFile != null ? templateFile : new File(templateFilePath);
+		initDocumentReplacerUtil(file);
 		preparePlaceHolderValueMap();
 	}
 
